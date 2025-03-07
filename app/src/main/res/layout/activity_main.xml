@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.wear.widget.BoxInsetLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <androidx.wear.widget.WearableRecyclerView
+        android:id="@+id/notes_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/new_note_button_initial"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:contentDescription="@string/new_note"
+        android:textSize="16sp"
+        android:drawableStart="@drawable/page_icon"
+        android:drawablePadding="8dp"
+        android:padding="15dp"
+        android:text="@string/new_note"
+        android:background="@drawable/button_main"
+        android:visibility="gone" />
+
+</androidx.wear.widget.BoxInsetLayout>

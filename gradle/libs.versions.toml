@@ -1,0 +1,21 @@
+[versions]
+agp = "8.7.2"
+kotlin = "2.0.0"
+playServicesWearable = "18.0.0"
+wearToolingPreview = "1.0.0"
+coreSplashscreen = "1.0.1"
+appcompat = "1.7.0"
+wear = "1.2.0"
+coreKtx = "1.2.0"
+
+[libraries]
+play-services-wearable = { group = "com.google.android.gms", name = "play-services-wearable", version.ref = "playServicesWearable" }
+wear-tooling-preview = { group = "androidx.wear", name = "wear-tooling-preview", version.ref = "wearToolingPreview" }
+core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "coreSplashscreen" }
+appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+wear = { group = "androidx.wear", name = "wear", version.ref = "wear"}
+core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
