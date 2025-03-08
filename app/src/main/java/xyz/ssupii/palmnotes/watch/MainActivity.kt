@@ -27,7 +27,8 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
     private val settingsButtonListener = View.OnClickListener {
-        Log.println(Log.DEBUG, "Login", "Settings button")
+        val intent = Intent(this, SettingsActivity::class.java)
+        startActivity(intent)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

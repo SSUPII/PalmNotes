@@ -3,5 +3,4 @@
     android:shape="rectangle" android:padding="10dp">
     <solid android:color="#212121"/>
     <corners android:radius="50dp"/>
-
 </shape>

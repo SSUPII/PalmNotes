@@ -4,27 +4,35 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="8dp"
-    android:backgroundTint="#FFFFFF">
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground"
+    android:background="@drawable/note_main"
+    android:layout_marginVertical="4dp"
+    >
 
     <TextView
         android:id="@+id/note_filename"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:maxLines="1"
-        android:ellipsize="end" />
+        android:ellipsize="end"
+        android:textSize="@dimen/default_title_text_size"/>
 
     <TextView
         android:id="@+id/note_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:maxLines="1"
-        android:ellipsize="end" />
+        android:ellipsize="end"
+        android:textSize="@dimen/default_title_text_size"/>
 
     <TextView
         android:id="@+id/note_lines_preview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:maxLines="1"
-        android:ellipsize="end" />
+        android:ellipsize="end"
+        android:textSize="@dimen/default_title_text_size"/>
 
 </LinearLayout>
