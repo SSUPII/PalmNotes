@@ -10,8 +10,9 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import xyz.ssupii.palmnotes.watch.utils.Quadruple
 
-class NotesAdapter(private val notes: MutableList<Triple<String, String, List<String>>>, private val onHeaderClickListener: View.OnClickListener,
+class NotesAdapter(private val notes: MutableList<Quadruple<String, String, List<String>, String>>, private val onHeaderClickListener: View.OnClickListener,
                    private val onFooterClickListener: View.OnClickListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
@@ -28,6 +29,7 @@ class NotesAdapter(private val notes: MutableList<Triple<String, String, List<St
         val fileText: TextView = itemView.findViewById(R.id.note_filename)
         val titleText: TextView = itemView.findViewById(R.id.note_title)
         val linesPreviewText: TextView = itemView.findViewById(R.id.note_lines_preview)
+        val lastModified: TextView = itemView.findViewById(R.id.note_last_modified)
     }
 
     class FooterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -76,6 +78,7 @@ class NotesAdapter(private val notes: MutableList<Triple<String, String, List<St
                 holder.fileText.text = note.first
                 holder.titleText.text = note.second
                 holder.linesPreviewText.text = note.third.joinToString(" ")
+                holder.lastModified.text = note.fourth
 
                 //Hide filename
                 if(Settings.get(0).second){
@@ -123,7 +126,7 @@ class NotesAdapter(private val notes: MutableList<Triple<String, String, List<St
         return VIEW_TYPE_NOTE
     }
 
-    fun addNote(note: Triple<String, String, List<String>>) {
+    fun addNote(note: Quadruple<String, String, List<String>, String>) {
         notes.add(note)
         notifyItemInserted(notes.size - 1)
     }

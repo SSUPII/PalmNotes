@@ -35,4 +35,12 @@
         android:ellipsize="end"
         android:textSize="@dimen/default_title_text_size"/>
 
+    <TextView
+        android:id="@+id/note_last_modified"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textSize="@dimen/default_title_text_size"/>
+
 </LinearLayout>

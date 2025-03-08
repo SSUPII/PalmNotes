@@ -5,6 +5,9 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.wear.widget.WearableLinearLayoutManager
 import androidx.wear.widget.WearableRecyclerView
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class SettingsActivity : AppCompatActivity() {
     private lateinit var settingsWrapper: WearableRecyclerView
@@ -18,7 +21,13 @@ class SettingsActivity : AppCompatActivity() {
 
         val settingsItems = listOf(
             SettingsItem.SettingLabel(getString(R.string.setting_main_category)),
-            SettingsItem.NoteDetails(getString(R.string.note_filename_example), getString(R.string.note_title_example), getString(R.string.note_contents_example), Settings.get()),
+            SettingsItem.NoteDetails(getString(
+                R.string.note_filename_example),
+                getString(R.string.note_title_example),
+                getString(R.string.note_contents_example),
+                SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date(0)),
+                Settings.get()
+            ),
             SettingsItem.SettingRow(getString(R.string.setting_filename_hide), Settings.get(0).second),
             SettingsItem.SettingRow(getString(R.string.setting_big_title), Settings.get(1).second),
             SettingsItem.SettingRow(getString(R.string.setting_serif_title), Settings.get(2).second),

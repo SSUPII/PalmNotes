@@ -10,7 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 sealed class SettingsItem {
-    data class NoteDetails(val filename: String, val title: String, val preview: String, val settings: List<Pair<String, Boolean>>) : SettingsItem()
+    data class NoteDetails(val filename: String, val title: String, val preview: String, val date: String, val settings: List<Pair<String, Boolean>>) : SettingsItem()
     data class SettingRow(val label: String, var isChecked: Boolean) : SettingsItem()
     data class SettingLabel(val label: String) : SettingsItem()
 }
@@ -79,11 +79,13 @@ class SettingsAdapter(private val items: List<SettingsItem>) : RecyclerView.Adap
         private val filenameTextView: TextView = itemView.findViewById(R.id.note_filename)
         private val titleTextView: TextView = itemView.findViewById(R.id.note_title)
         private val previewTextView: TextView = itemView.findViewById(R.id.note_lines_preview)
+        private val dateTextView: TextView = itemView.findViewById(R.id.note_last_modified)
 
         fun bind(item: SettingsItem.NoteDetails) {
             filenameTextView.text = item.filename
             titleTextView.text = item.title
             previewTextView.text = item.preview
+            dateTextView.text = item.date
 
             itemView.isClickable = false
 

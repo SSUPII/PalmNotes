@@ -16,6 +16,10 @@ import androidx.wear.widget.WearableRecyclerView
 import java.io.IOException
 import java.util.Locale
 import xyz.ssupii.palmnotes.watch.Settings
+import xyz.ssupii.palmnotes.watch.utils.Quadruple
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.Date
 
 const val PREFS_NAME = "PalmNotesSettings"
 
@@ -94,7 +98,7 @@ class MainActivity : AppCompatActivity() {
                 if (file.lowercase(Locale.ROOT).endsWith(".txt")) {
                     readFile(file)?.let { noteData ->
                         // Create a Note object and add it to the adapter
-                        adapter.addNote(Triple(noteData.first, noteData.second, noteData.third))
+                        adapter.addNote(Quadruple(noteData.first, noteData.second, noteData.third, noteData.fourth))
                     }
                     filesFound = true
                 }
@@ -103,21 +107,23 @@ class MainActivity : AppCompatActivity() {
         if(filesFound) notes_list.visibility = WearableRecyclerView.VISIBLE; new_note_button_initial.visibility = Button.GONE
     }
 
-    private fun readFile(file: String): Triple<String, String, List<String>>? {
+    private fun readFile(file: String): Quadruple<String, String, List<String>, String>? {
 
-        var returnTriple: Triple<String, String, List<String>>? = null
+        var returnObj: Quadruple<String, String, List<String>, String>? = null
         try {
             openFileInput(file).use { input ->
                 val lines = input.bufferedReader().readLines()
                 if (lines.isNotEmpty()) {
-                    returnTriple = Triple(file, lines[0], lines.subList(1, lines.size))
+                    val lastModifiedMillis = File(applicationContext.filesDir, file).lastModified()
+                    val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()) //TODO allow selection
+                    returnObj = Quadruple(file, lines[0], lines.subList(1, lines.size), sdf.format(Date(lastModifiedMillis)))
                 }
             }
         } catch (e: IOException) {
             e.printStackTrace()
         }
 
-        return returnTriple
+        return returnObj
     }
 
 }
