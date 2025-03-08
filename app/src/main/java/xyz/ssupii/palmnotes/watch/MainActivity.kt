@@ -41,8 +41,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Toast.makeText(this, "onCreate", Toast.LENGTH_SHORT).show()
-
         //Get settings
         val sharedPref = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         with(sharedPref.edit()) {
@@ -75,8 +73,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onResume() {
-        Toast.makeText(this, "onResume", Toast.LENGTH_SHORT).show()
-
         //Write any settings changes
         val sharedPref = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         with(sharedPref.edit()) {
@@ -89,22 +85,29 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
 
         val savedNotesFiles: Array<String> = fileList()
-        var filesFound: Boolean = false
-
-        adapter.changesComing() //TODO See function implementation
-        if (savedNotesFiles.isNotEmpty()) {
-            //TODO Add hiding initial big settings button
-            for (file in savedNotesFiles) {
-                if (file.lowercase(Locale.ROOT).endsWith(".txt")) {
-                    readFile(file)?.let { noteData ->
-                        // Create a Note object and add it to the adapter
-                        adapter.addNote(Quadruple(noteData.first, noteData.second, noteData.third, noteData.fourth))
-                    }
-                    filesFound = true
-                }
+        val savedTxtFiles: MutableList<String> = savedNotesFiles.toMutableList()
+        val iterator = savedTxtFiles.iterator()
+        while (iterator.hasNext()) {
+            val file = iterator.next()
+            if (!file.lowercase(Locale.ROOT).endsWith(".txt")) {
+                iterator.remove()
             }
         }
-        if(filesFound) notes_list.visibility = WearableRecyclerView.VISIBLE; new_note_button_initial.visibility = Button.GONE
+        var filesFound: Boolean = false
+
+        Log.println(Log.DEBUG, "data", savedTxtFiles.toString())
+        if (savedTxtFiles.isNotEmpty()) {
+            adapter.changesComing() //TODO See function implementation
+            //TODO Add hiding initial big settings button
+            for (file in savedTxtFiles) {
+                readFile(file)?.let { noteData ->
+                    // Create a Note object and add it to the adapter
+                    adapter.addNote(Quadruple(noteData.first, noteData.second, noteData.third, noteData.fourth))
+                }
+                filesFound = true
+            }
+        }
+        if(filesFound) {notes_list.visibility = WearableRecyclerView.VISIBLE; new_note_button_initial.visibility = Button.GONE}
     }
 
     private fun readFile(file: String): Quadruple<String, String, List<String>, String>? {
