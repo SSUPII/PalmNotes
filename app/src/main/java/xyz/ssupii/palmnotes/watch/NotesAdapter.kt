@@ -1,41 +1,107 @@
-import android.util.Log
+package xyz.ssupii.palmnotes.watch
+
+import android.media.Image
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import xyz.ssupii.palmnotes.watch.R
 
-class NotesAdapter(private val notes: MutableList<Triple<String, String, List<String>>>) : RecyclerView.Adapter<NotesAdapter.NoteViewHolder>() {
+class NotesAdapter(private val notes: MutableList<Triple<String, String, List<String>>>, private val onHeaderClickListener: View.OnClickListener,
+                   private val onFooterClickListener: View.OnClickListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-// ViewHolder holds references to the item views
-inner class NoteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    val fileText: TextView = itemView.findViewById(R.id.note_title)
-    val titleText: TextView = itemView.findViewById(R.id.note_title)
-    val linesPreviewText: TextView = itemView.findViewById(R.id.note_lines_preview)
-}
+    companion object {
+        private const val VIEW_TYPE_NEW_NOTE_BUTTON = 0
+        private const val VIEW_TYPE_NOTE = 1
+        private const val VIEW_TYPE_SETTINGS_BUTTON = 2
+    }
 
-// Inflate the item layout and create the ViewHolder
-override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
-    val view = LayoutInflater.from(parent.context).inflate(R.layout.note_element, parent, false)
-    return NoteViewHolder(view)
-}
+    class HeaderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val headerButton: ImageButton = itemView.findViewById(R.id.new_note_button)
+    }
 
-// Bind data to the views in each item
-override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
-    val note = notes[position]
-    holder.fileText.text = note.first
-    holder.titleText.text = note.second.getOrNull(0)?.toString() ?: ""
-    holder.linesPreviewText.text = note.third.getOrNull(1) ?: ""
-    Log.println(Log.DEBUG, "File", note.toString())
-}
+    class NoteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val fileText: TextView = itemView.findViewById(R.id.note_filename)
+        val titleText: TextView = itemView.findViewById(R.id.note_title)
+        val linesPreviewText: TextView = itemView.findViewById(R.id.note_lines_preview)
+    }
 
-// Return the total number of items
-override fun getItemCount(): Int = notes.size
+    class FooterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val footerButton: ImageButton = itemView.findViewById(R.id.settings_button)
+    }
 
-// Optional: Method to add a new note dynamically
-fun addNote(note: Triple<String, String, List<String>>) {
-    notes.add(note)
-    notifyItemInserted(notes.size - 1)
-}
+
+    // Inflate the item layout and create the ViewHolder
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return when (viewType) {
+            VIEW_TYPE_NEW_NOTE_BUTTON -> {
+                val headerView = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.new_note_button_small, parent, false)
+                HeaderViewHolder(headerView)
+            }
+
+            VIEW_TYPE_SETTINGS_BUTTON -> {
+                val footerView = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.settings_button_small, parent, false)
+                FooterViewHolder(footerView)
+            }
+            else -> {
+                // Regular note item
+                val noteView = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.note_element, parent, false)
+                NoteViewHolder(noteView)
+            }
+        }
+    }
+
+
+    // Bind data to the views in each item
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when (holder) {
+            is HeaderViewHolder -> {
+                holder.headerButton.setOnClickListener(onHeaderClickListener)
+            }
+            is FooterViewHolder -> {
+                holder.footerButton.setOnClickListener(onFooterClickListener)
+            }
+            is NoteViewHolder -> {
+                // Because position=0 is header, note #0 is actually at
+                // position-1 in the notes list
+                val notePosition = position - 1
+                val note = notes[notePosition]
+                holder.fileText.text = note.first
+                holder.titleText.text = note.second
+                holder.linesPreviewText.text = note.third.joinToString(" ")
+            }
+        }
+    }
+
+
+    // Return the total number of items
+    override fun getItemCount(): Int = notes.size + 2
+
+    override fun getItemViewType(position: Int): Int {
+        // If the first item: header
+        if (position == 0) {
+            return VIEW_TYPE_NEW_NOTE_BUTTON
+        }
+        // If the last item: footer
+        else if (position == itemCount - 1) {
+            return VIEW_TYPE_SETTINGS_BUTTON
+        }
+        // Otherwise: it's a note
+        return VIEW_TYPE_NOTE
+    }
+
+    fun addNote(note: Triple<String, String, List<String>>) {
+        notes.add(note)
+        notifyItemInserted(notes.size - 1)
+    }
+
+    fun changesComing(){
+        notes.clear()
+        notifyDataSetChanged() //TODO Change with more specific events
+    }
 }

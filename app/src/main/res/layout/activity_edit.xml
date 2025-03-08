@@ -5,59 +5,65 @@
     android:layout_height="match_parent"
     android:padding="20dp">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/note_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/note_title"
+            <LinearLayout
+                android:id="@+id/note_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:autofillHints="title"
-                android:hint="@string/title_hint"
-                android:fontFamily="serif"
-                android:inputType="text"
-                android:textSize="25sp"
-                android:background="@null"
-                android:layout_margin="7dp"
-                android:textAlignment="center"
-                />
+                android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/note_line"
-                android:layout_width="match_parent"
+                <EditText
+                    android:id="@+id/note_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autofillHints="title"
+                    android:hint="@string/title_hint"
+                    android:fontFamily="serif"
+                    android:inputType="text"
+                    android:textSize="25sp"
+                    android:background="@null"
+                    android:layout_margin="7dp"
+                    android:textAlignment="center"
+                    />
+
+                <EditText
+                    android:id="@+id/note_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autofillHints="note"
+                    android:hint="@string/note_hint"
+                    android:fontFamily="sans-serif"
+                    android:inputType="text"
+                    android:textSize="16sp"
+                    android:textAlignment="textStart"
+                    android:paddingVertical="5dp"
+                    />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/save_button"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:autofillHints="note"
-                android:hint="@string/note_hint"
-                android:fontFamily="sans-serif"
-                android:inputType="text"
+                android:layout_gravity="center"
+                android:text="@string/save"
                 android:textSize="16sp"
-                android:textAlignment="textStart"
-                android:paddingVertical="5dp"
+                android:drawableStart="@drawable/page_icon"
+                android:drawablePadding="5dp"
+                android:padding="10dp"
+                android:background="@drawable/button_main"
                 />
 
         </LinearLayout>
 
-        <Button
-            android:id="@+id/save_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/save"
-            android:textSize="16sp"
-            android:drawableStart="@drawable/page_icon"
-            android:drawablePadding="5dp"
-            android:padding="10dp"
-            android:background="@drawable/button_main"
-            />
-
-    </LinearLayout>
+    </ScrollView>
 
 </androidx.wear.widget.BoxInsetLayout>

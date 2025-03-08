@@ -3,30 +3,28 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="8dp">
+    android:padding="8dp"
+    android:backgroundTint="#FFFFFF">
 
     <TextView
         android:id="@+id/note_filename"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:maxLines="1"
-        android:ellipsize="end"
-        android:text="Note Title" />
+        android:ellipsize="end" />
 
     <TextView
         android:id="@+id/note_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:maxLines="1"
-        android:ellipsize="end"
-        android:text="First line of note" />
+        android:ellipsize="end" />
 
     <TextView
         android:id="@+id/note_lines_preview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:maxLines="1"
-        android:ellipsize="end"
-        android:text="Second line of note" />
+        android:ellipsize="end" />
 
 </LinearLayout>
