@@ -1,5 +1,6 @@
 package xyz.ssupii.palmnotes.watch
 
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -14,8 +15,12 @@ import androidx.wear.widget.WearableLinearLayoutManager
 import androidx.wear.widget.WearableRecyclerView
 import java.io.IOException
 import java.util.Locale
+import xyz.ssupii.palmnotes.watch.Settings
+
+const val PREFS_NAME = "PalmNotesSettings"
 
 class MainActivity : AppCompatActivity() {
+
     private lateinit var notes_list: WearableRecyclerView
     private lateinit var adapter: NotesAdapter
 
@@ -33,6 +38,18 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Toast.makeText(this, "onCreate", Toast.LENGTH_SHORT).show()
+
+        //Get settings
+        val sharedPref = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        with(sharedPref.edit()) {
+            for (i in 0 until Settings.size()) {
+                Settings.set(
+                    i, sharedPref.getBoolean(Settings.get(i).first, Settings.get(i).second)
+                )
+            }
+            apply()
+        }
+
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         }
@@ -50,12 +67,20 @@ class MainActivity : AppCompatActivity() {
         notes_list.adapter = adapter
 
         new_note_button_initial.visibility = Button.VISIBLE
-
         new_note_button_initial.setOnClickListener(newNoteButtonListener)
     }
 
     override fun onResume() {
         Toast.makeText(this, "onResume", Toast.LENGTH_SHORT).show()
+
+        //Write any settings changes
+        val sharedPref = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        with(sharedPref.edit()) {
+            for (i in 0 until Settings.size()) {
+                putBoolean(Settings.get(i).first, Settings.get(i).second)
+            }
+            apply()
+        }
 
         super.onResume()
 

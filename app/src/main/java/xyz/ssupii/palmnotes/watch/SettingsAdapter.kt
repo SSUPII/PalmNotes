@@ -10,7 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 sealed class SettingsItem {
-    data class NoteDetails(val filename: String, val title: String, val preview: String, val settings: List<Boolean>) : SettingsItem()
+    data class NoteDetails(val filename: String, val title: String, val preview: String, val settings: List<Pair<String, Boolean>>) : SettingsItem()
     data class SettingRow(val label: String, var isChecked: Boolean) : SettingsItem()
     data class SettingLabel(val label: String) : SettingsItem()
 }
@@ -88,26 +88,26 @@ class SettingsAdapter(private val items: List<SettingsItem>) : RecyclerView.Adap
             itemView.isClickable = false
 
             //Hide filename
-            if(item.settings[0]){
+            if(item.settings[0].second){
                 filenameTextView.visibility = TextView.GONE
             }else{
                 filenameTextView.visibility = TextView.VISIBLE
             }
             //Big title
             val defaultSizePx = itemView.context.resources.getDimension(R.dimen.default_title_text_size) // returns px
-            if (item.settings[1]) {
+            if (item.settings[1].second) {
                 titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, defaultSizePx * 1.3f)
             } else {
                 titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, defaultSizePx)
             }
             //Serif title
-            if(item.settings[2]){
+            if(item.settings[2].second){
                 titleTextView.typeface = Typeface.create("serif", Typeface.NORMAL)
             }else{
                 titleTextView.typeface = Typeface.create("sans-serif", Typeface.NORMAL)
             }
             //Hide contents preview
-            if(item.settings[3]){
+            if(item.settings[3].second){
                 previewTextView.visibility = TextView.GONE
             }else{
                 previewTextView.visibility = TextView.VISIBLE
