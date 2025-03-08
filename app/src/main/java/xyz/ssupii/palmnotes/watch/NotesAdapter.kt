@@ -1,6 +1,8 @@
 package xyz.ssupii.palmnotes.watch
 
+import android.graphics.Typeface
 import android.media.Image
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -74,6 +76,32 @@ class NotesAdapter(private val notes: MutableList<Triple<String, String, List<St
                 holder.fileText.text = note.first
                 holder.titleText.text = note.second
                 holder.linesPreviewText.text = note.third.joinToString(" ")
+
+                //Hide filename
+                if(Settings.get(0).second){
+                    holder.fileText.visibility = TextView.GONE
+                }else{
+                    holder.fileText.visibility = TextView.VISIBLE
+                }
+                //Big title
+                val defaultSizePx = holder.itemView.context.resources.getDimension(R.dimen.default_title_text_size) // returns px
+                if (Settings.get(1).second) {
+                    holder.titleText.setTextSize(TypedValue.COMPLEX_UNIT_PX, defaultSizePx * 1.3f)
+                } else {
+                    holder.titleText.setTextSize(TypedValue.COMPLEX_UNIT_PX, defaultSizePx)
+                }
+                //Serif title
+                if(Settings.get(2).second){
+                    holder.titleText.typeface = Typeface.create("serif", Typeface.NORMAL)
+                }else{
+                    holder.titleText.typeface = Typeface.create("sans-serif", Typeface.NORMAL)
+                }
+                //Hide contents preview
+                if(Settings.get(3).second){
+                    holder.linesPreviewText.visibility = TextView.GONE
+                }else{
+                    holder.linesPreviewText.visibility = TextView.VISIBLE
+                }
             }
         }
     }
