@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.wear.widget.WearableLinearLayoutManager
 import androidx.wear.widget.WearableRecyclerView
 import java.io.IOException
+import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
     private lateinit var notes_list: WearableRecyclerView
@@ -64,7 +65,7 @@ class MainActivity : AppCompatActivity() {
         if (savedNotesFiles.isNotEmpty()) {
             //TODO Add hiding initial big settings button
             for (file in savedNotesFiles) {
-                if (file.toLowerCase().endsWith(".txt")) {
+                if (file.lowercase(Locale.ROOT).endsWith(".txt")) {
                     readFile(file)?.let { noteData ->
                         // Create a Note object and add it to the adapter
                         adapter.addNote(Triple(noteData.first, noteData.second, noteData.third))
