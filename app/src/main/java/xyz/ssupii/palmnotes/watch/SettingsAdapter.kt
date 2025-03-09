@@ -11,13 +11,13 @@ import androidx.recyclerview.widget.RecyclerView
 
 sealed class SettingsItem {
     data class NoteDetails(val filename: String, val title: String, val preview: String, val date: String, val settings: List<Pair<String, Boolean>>) : SettingsItem()
-    data class SettingRow(val label: String, var isChecked: Boolean) : SettingsItem()
+    data class SettingRow(val label: String, var isChecked: Boolean, var id: Int) : SettingsItem()
     data class SettingLabel(val label: String) : SettingsItem()
 }
 
 class SettingsAdapter(private val items: List<SettingsItem>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    var onSettingRowClicked: ((SettingsItem.SettingRow, Int) -> Unit)? = null
+    var onSettingRowClicked: ((SettingsItem.SettingRow, Int, Int) -> Unit)? = null
 
     companion object {
         private const val TYPE_NOTE_DETAILS = 0
@@ -63,7 +63,7 @@ class SettingsAdapter(private val items: List<SettingsItem>) : RecyclerView.Adap
                 val item = items[position] as SettingsItem.SettingRow
                 holder.bind(item)
                 holder.itemView.setOnClickListener {
-                    onSettingRowClicked?.invoke(item, position)
+                    onSettingRowClicked?.invoke(item, position, item.id)
                 }
             }
             is SettingLabelViewHolder -> {

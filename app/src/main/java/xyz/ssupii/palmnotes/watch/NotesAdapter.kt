@@ -1,17 +1,16 @@
 package xyz.ssupii.palmnotes.watch
 
 import android.graphics.Typeface
-import android.media.Image
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import xyz.ssupii.palmnotes.watch.utils.Quadruple
+import xyz.ssupii.palmnotes.watch.utils.Settings
 
 class NotesAdapter(private val notes: MutableList<Quadruple<String, String, List<String>, String>>, private val onHeaderClickListener: View.OnClickListener,
                    private val onFooterClickListener: View.OnClickListener, private val onNoteClickListener: View.OnClickListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

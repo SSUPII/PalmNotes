@@ -10,13 +10,12 @@ import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.wear.widget.WearableLinearLayoutManager
 import androidx.wear.widget.WearableRecyclerView
 import java.io.IOException
 import java.util.Locale
-import xyz.ssupii.palmnotes.watch.Settings
+import xyz.ssupii.palmnotes.watch.utils.Settings
 import xyz.ssupii.palmnotes.watch.utils.Quadruple
 import java.io.File
 import java.text.SimpleDateFormat

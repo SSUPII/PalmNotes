@@ -1,4 +1,4 @@
-package xyz.ssupii.palmnotes.watch
+package xyz.ssupii.palmnotes.watch.utils
 
 class Settings private constructor(){
     init {
@@ -11,7 +11,8 @@ class Settings private constructor(){
             "setting_filename_hide" to true,
             "setting_big_title" to false,
             "setting_serif_title" to true,
-            "setting_contents_hide" to false
+            "setting_contents_hide" to false,
+            "setting_large_editor" to false
         )
 
         fun get(): List<Pair<String, Boolean>>{
