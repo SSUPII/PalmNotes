@@ -6,6 +6,8 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.InputDevice
+import android.view.MotionEvent
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
@@ -60,6 +62,7 @@ class MainActivity : AppCompatActivity() {
             apply()
         }
 
+        // Night mode fix for WearOS 2 and older
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         }
@@ -104,8 +107,8 @@ class MainActivity : AppCompatActivity() {
         var filesFound: Boolean = false
 
         Log.println(Log.DEBUG, "data", savedTxtFiles.toString())
+        adapter.changesComing() //TODO See function implementation
         if (savedTxtFiles.isNotEmpty()) {
-            adapter.changesComing() //TODO See function implementation
             //TODO Add hiding initial big settings button
             for (file in savedTxtFiles) {
                 readFile(file)?.let { noteData ->
@@ -116,6 +119,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
         if(filesFound) {notes_list.visibility = WearableRecyclerView.VISIBLE; new_note_button_initial.visibility = Button.GONE}
+        else{notes_list.visibility = WearableRecyclerView.GONE; new_note_button_initial.visibility = Button.VISIBLE}
     }
 
     private fun readFile(file: String): Quadruple<String, String, List<String>, String>? {
@@ -136,5 +140,25 @@ class MainActivity : AppCompatActivity() {
 
         return returnObj
     }
+
+    override fun onGenericMotionEvent(event: MotionEvent?): Boolean {
+        //API 26+ only. Scroll via disc/knob
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            event?.let {
+                if (it.action == MotionEvent.ACTION_SCROLL &&
+                    it.source and InputDevice.SOURCE_ROTARY_ENCODER != 0) {
+
+                    // Get the scroll delta (the amount of rotation)
+                    val delta = it.getAxisValue(MotionEvent.AXIS_SCROLL)
+                    // TODO Adjust SCROLL_FACTOR to control the scroll speed based on setting
+                    val SCROLL_FACTOR = 90
+                    notes_list.scrollBy(0, (-delta * SCROLL_FACTOR).toInt())
+                    return true
+                }
+            }
+        }
+        return super.onGenericMotionEvent(event)
+    }
+
 
 }

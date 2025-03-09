@@ -2,13 +2,17 @@ package xyz.ssupii.palmnotes.watch
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.TypedValue
+import android.view.InputDevice
+import android.view.MotionEvent
 import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
+import android.widget.ScrollView
 import androidx.appcompat.app.AppCompatActivity
 import java.io.IOException
 
@@ -17,6 +21,7 @@ class EditActivity : AppCompatActivity() {
     private lateinit var note_title: EditText
     private lateinit var note_line_initial: EditText
     private lateinit var save_button: Button
+    private lateinit var note_edit_scroll: ScrollView
 
     private val note_lines = mutableListOf<EditText>()
     private var textWatcher: TextWatcher? = null
@@ -29,6 +34,7 @@ class EditActivity : AppCompatActivity() {
         note_title = findViewById(R.id.note_title)
         note_line_initial = findViewById(R.id.note_line)
         save_button = findViewById(R.id.save_button)
+        note_edit_scroll = findViewById(R.id.note_edit_scroll)
 
         note_lines.add(note_line_initial)
 
@@ -104,6 +110,25 @@ class EditActivity : AppCompatActivity() {
 
     private fun removeTextEditListener(editText: EditText) {
         editText.removeTextChangedListener(textWatcher)
+    }
+
+    override fun onGenericMotionEvent(event: MotionEvent?): Boolean {
+        //API 26+ only. Scroll via disc/knob
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            event?.let {
+                if (it.action == MotionEvent.ACTION_SCROLL &&
+                    it.source and InputDevice.SOURCE_ROTARY_ENCODER != 0) {
+
+                    // Get the scroll delta (the amount of rotation)
+                    val delta = it.getAxisValue(MotionEvent.AXIS_SCROLL)
+                    // TODO Adjust SCROLL_FACTOR to control the scroll speed based on setting
+                    val SCROLL_FACTOR = 90
+                    note_edit_scroll.scrollBy(0, (-delta * SCROLL_FACTOR).toInt())
+                    return true
+                }
+            }
+        }
+        return super.onGenericMotionEvent(event)
     }
 }
 

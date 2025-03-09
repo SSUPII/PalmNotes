@@ -1,7 +1,10 @@
 package xyz.ssupii.palmnotes.watch
 
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
+import android.view.InputDevice
+import android.view.MotionEvent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.wear.widget.WearableLinearLayoutManager
 import androidx.wear.widget.WearableRecyclerView
@@ -55,5 +58,24 @@ class SettingsActivity : AppCompatActivity() {
         }
         settingsWrapper.adapter = settingsAdapter
 
+    }
+
+    override fun onGenericMotionEvent(event: MotionEvent?): Boolean {
+        //API 26+ only. Scroll via disc/knob
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            event?.let {
+                if (it.action == MotionEvent.ACTION_SCROLL &&
+                    it.source and InputDevice.SOURCE_ROTARY_ENCODER != 0) {
+
+                    // Get the scroll delta (the amount of rotation)
+                    val delta = it.getAxisValue(MotionEvent.AXIS_SCROLL)
+                    // TODO Adjust SCROLL_FACTOR to control the scroll speed based on setting
+                    val SCROLL_FACTOR = 90
+                    settingsWrapper.scrollBy(0, (-delta * SCROLL_FACTOR).toInt())
+                    return true
+                }
+            }
+        }
+        return super.onGenericMotionEvent(event)
     }
 }
