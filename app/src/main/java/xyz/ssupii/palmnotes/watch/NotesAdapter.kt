@@ -8,12 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import xyz.ssupii.palmnotes.watch.utils.Quadruple
 
 class NotesAdapter(private val notes: MutableList<Quadruple<String, String, List<String>, String>>, private val onHeaderClickListener: View.OnClickListener,
-                   private val onFooterClickListener: View.OnClickListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+                   private val onFooterClickListener: View.OnClickListener, private val onNoteClickListener: View.OnClickListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
         private const val VIEW_TYPE_NEW_NOTE_BUTTON = 0
@@ -26,6 +27,7 @@ class NotesAdapter(private val notes: MutableList<Quadruple<String, String, List
     }
 
     class NoteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val layout: LinearLayout = itemView.findViewById(R.id.note_layout)
         val fileText: TextView = itemView.findViewById(R.id.note_filename)
         val titleText: TextView = itemView.findViewById(R.id.note_title)
         val linesPreviewText: TextView = itemView.findViewById(R.id.note_lines_preview)
@@ -105,6 +107,8 @@ class NotesAdapter(private val notes: MutableList<Quadruple<String, String, List
                 }else{
                     holder.linesPreviewText.visibility = TextView.VISIBLE
                 }
+
+                holder.layout.setOnClickListener(onNoteClickListener)
             }
         }
     }

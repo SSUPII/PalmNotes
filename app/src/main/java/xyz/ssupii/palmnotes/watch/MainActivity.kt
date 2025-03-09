@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.wear.widget.WearableLinearLayoutManager
@@ -39,6 +40,14 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this, SettingsActivity::class.java)
         startActivity(intent)
     }
+    private val noteElementListener = View.OnClickListener { view ->
+        val noteFilenameTextView = view.findViewById<TextView>(R.id.note_filename)
+        val filename = noteFilenameTextView.text.toString()
+
+        val intent = Intent(this, ViewActivity::class.java)
+        intent.putExtra("filename", filename)
+        startActivity(intent)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         //Get settings
@@ -64,7 +73,7 @@ class MainActivity : AppCompatActivity() {
 
         notes_list.setLayoutManager(WearableLinearLayoutManager(this))
         adapter = NotesAdapter(
-            mutableListOf(), newNoteButtonListener, settingsButtonListener
+            mutableListOf(), newNoteButtonListener, settingsButtonListener, noteElementListener
         )
         notes_list.adapter = adapter
 

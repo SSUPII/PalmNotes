@@ -21,4 +21,6 @@
     <string name="setting_editor_larger">Larger editor</string>
     <string name="setting_serif_title">Serif title</string>
     <string name="setting_main_category">Main</string>
+    <string name="edit">Edit</string>
+
 </resources>
