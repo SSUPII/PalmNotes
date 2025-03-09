@@ -22,5 +22,7 @@
     <string name="setting_serif_title">Serif title</string>
     <string name="setting_main_category">Main</string>
     <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="sure_delete">Sure?</string>
 
 </resources>
